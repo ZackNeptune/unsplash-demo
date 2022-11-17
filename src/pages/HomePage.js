@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import Hero from "../components/Hero"
 import Image from "../components/Image"
 import InfiniteScroll from 'react-infinite-scroll-component'
