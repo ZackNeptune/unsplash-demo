@@ -1,6 +1,6 @@
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = "ZBZ6234mURgA6pIATm32Dk0P1VzFmaeVp9LN6hsT088";
 const BASE_URL = `https://api.unsplash.com`
-const COUNT = 30
+const COUNT = 6
 
 export function getRandomImages() {
     const URL = `${BASE_URL}/photos/random/?client_id=${API_KEY}&count=${COUNT}`

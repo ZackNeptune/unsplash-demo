@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import Hero from "../components/Hero"
 import Image from "../components/Image"
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 import { getRandomImages } from "../unsplash"
 
 function HomePage() {
     const [images, setImages] = useState([])
 
-    useEffect(() => {
+    //useEffect(() => {
+    const randomimages = () => {
         getRandomImages()
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                setImages(
-                    data.map(image => ({
-                        id: image.id,
-                        imageUrl: image.urls.regular,
-                        downloadUrl: image.urls.full,
-                        username: image.user.username,
-                        userImageUrl: image.user.profile_image.medium,
-                        profileUrl: image.user.links.html
-                    }))
-                )
-            })
-            .catch(error => alert(error))
-    }, [])
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            data.map(image => (setImages((olddata)=>
+                [...olddata,{
+                    id: image.id,
+                    imageUrl: image.urls.regular,
+                    downloadUrl: image.urls.full,
+                    username: image.user.username,
+                    userImageUrl: image.user.profile_image.medium,
+                    profileUrl: image.user.links.html
+                }]))
+            )
+        })
+        .catch(error => alert(error))
+    }
+    // }, [])
 
     return (
         <>
@@ -33,16 +36,41 @@ function HomePage() {
             <div className="wrapper">
                 <div className="container">
 
-                    <div className="images__container">
-                        {
+                    
+                        <InfiniteScroll 
+                        
+                            dataLength={images.length} //This is important field to render the next data
+                            next={randomimages}
+                            hasMore={true}
+                            loader={<h4>Loading...</h4>}
+                            endMessage={
+                                <p style={{ textAlign: 'center' }}>
+                                    <b>Yay! You have seen it all</b>
+                                </p>
+                            }
+                            // below props only if you need pull down functionality
+                            refreshFunction={randomimages}
+                            pullDownToRefresh
+                            pullDownToRefreshThreshold={50}
+                            pullDownToRefreshContent={
+                                <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
+                            }
+                            releaseToRefreshContent={
+                                <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+                            }
+                        >
+                         
+                        <div className="images__container">{
                             images.map(image => (
                                 <Image key={image.imageUrl} data={image} />
                             ))
-                        }
+                        } </div>  
+                        </InfiniteScroll>
+                        
                     </div>
 
                 </div>
-            </div>
+            
 
         </>
     )
