@@ -7,7 +7,7 @@ export function getRandomImages() {
     return fetch(URL)
 }
 
-export function searchImages(searchTerm) {
-    const URL = `${BASE_URL}/search/photos/?client_id=${API_KEY}&per_page=${COUNT}&query=${searchTerm}`
+export function searchImages(searchTerm,page) {
+    const URL = `${BASE_URL}/search/photos/?client_id=${API_KEY}&query=${searchTerm}&page=${page}`
     return fetch(URL)
 }
